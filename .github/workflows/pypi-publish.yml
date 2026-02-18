@@ -44,4 +44,4 @@ jobs:
         #uses: ./.github/actions/publish-to-pypi
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_PASSWORD }}
+          packages-dir: 'dist'
