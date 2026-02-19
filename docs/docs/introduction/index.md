@@ -11,8 +11,10 @@ functions used across the EasyScience framework.
 
 **EasyUtilities** is developed as a Python library.
 
+<!--
 **EasyUtilities** is developed using the
 [EasyScience framework](https://easyscience.org).
+-->
 
 ## License
 
