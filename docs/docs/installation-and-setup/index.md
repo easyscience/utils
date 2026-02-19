@@ -37,9 +37,9 @@ This section describes the simplest way to set up EasyUtilities using
 
 #### Setting up EasyUtilities with Pixi
 
-- Choose a project location (local drive recommended).
-
 <!-- prettier-ignore-start -->
+
+- Choose a project location (local drive recommended).
 
     ??? warning ":fontawesome-brands-windows: Windows + OneDrive"
 
