@@ -6,9 +6,8 @@ icon: material/information-slab-circle
 
 ## Description
 
-**EasyUtilities** is a scientific software for sharing utilities,
-including reusable classes and functions, to be used across EasyScience
-modules.
+**EasyUtilities** is a shared library of utility classes and helper
+functions used across the EasyScience framework.
 
 **EasyUtilities** is developed as a Python library.
 

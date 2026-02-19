@@ -37,6 +37,21 @@ This section describes the simplest way to set up EasyUtilities using
 
 #### Setting up EasyUtilities with Pixi
 
+- Choose a project location (local drive recommended).
+
+  !!! warning ":fontawesome-brands-windows: Windows + OneDrive"
+
+        We **do not recommend creating a Pixi project inside OneDrive or other synced folders**.
+
+        By default, Pixi creates the virtual environment inside the project
+        directory (in `.pixi/`). On Windows, synced folders such as OneDrive
+        may cause file‑system issues (e.g., path-length limitations or
+        restricted link operations), which can lead to unexpected install errors
+        or environments being recreated.
+
+        Instead, create your project in a **local directory on your drive**
+        where you have full write permissions.
+
 - Initialize a new Pixi project and navigate into it:
   ```txt
   pixi init easyutilities
