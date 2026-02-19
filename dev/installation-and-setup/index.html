@@ -900,6 +900,21 @@ manager is also provided.</p>
 </ul>
 <h4 id="setting-up-easyutilities-with-pixi">Setting up EasyUtilities with <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr></h4>
 <ul>
+<li>Choose a project location (local drive recommended).</li>
+</ul>
+<p>!!! warning "<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows + OneDrive"</p>
+<div class="language-text highlight"><pre><span></span><code>    We **do not recommend creating a Pixi project inside OneDrive or other synced folders**.
+
+    By default, Pixi creates the virtual environment inside the project
+    directory (in `.pixi/`). On Windows, synced folders such as OneDrive
+    may cause file‑system issues (e.g., path-length limitations or
+    restricted link operations), which can lead to unexpected install errors
+    or environments being recreated.
+
+    Instead, create your project in a **local directory on your drive**
+    where you have full write permissions.
+</code></pre></div>
+<ul>
 <li>Initialize a new <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> project and navigate into it:
   <div class="language-text highlight"><pre><span></span><code>pixi init easyutilities
 cd easyutilities
