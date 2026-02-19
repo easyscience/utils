@@ -875,8 +875,8 @@
 <p>To install and set up EasyUtilities, we recommend using
 <a href="https://pixi.prefix.dev"><strong><abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr></strong></a>, a modern package manager for
 Windows, macOS, and Linux.</p>
-<div class="admonition note">
-<p class="admonition-title">Main benefits of using <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr></p>
+<details class="note">
+<summary>Main benefits of using <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr></summary>
 <ul>
 <li><strong>Ease of use</strong>: <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> simplifies the installation process, making it
   accessible even for users with limited experience in package management.</li>
@@ -887,7 +887,7 @@ Windows, macOS, and Linux.</p>
 <li><strong><abbr title="The Python Package Index is a repository of software for the Python programming language.">PyPI</abbr> and <abbr title="Conda is a cross-platform, language-agnostic binary package manager.">Conda</abbr> support</strong>: <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> can install packages from both <abbr title="The Python Package Index is a repository of software for the Python programming language.">PyPI</abbr> and
   <abbr title="Conda is a cross-platform, language-agnostic binary package manager.">Conda</abbr> repositories, providing access to a wide range of libraries.</li>
 </ul>
-</div>
+</details>
 <p>An alternative installation method using the traditional <strong><abbr title="Package installer for Python.">pip</abbr></strong> package
 manager is also provided.</p>
 <h2 id="installing-with-pixi">Installing with <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> <small>recommended</small></h2>
@@ -899,21 +899,27 @@ manager is also provided.</p>
   <a href="https://pixi.prefix.dev/latest/installation">official <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> Installation Guide</a>.</li>
 </ul>
 <h4 id="setting-up-easyutilities-with-pixi">Setting up EasyUtilities with <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr></h4>
+<!-- prettier-ignore-start -->
+
 <ul>
-<li>Choose a project location (local drive recommended).</li>
+<li>
+<p>Choose a project location (local drive recommended).</p>
+<details class="warning">
+<summary><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows + OneDrive</summary>
+<p>We <strong>do not recommend creating a <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> project inside OneDrive or other
+synced folders</strong>.</p>
+<p>By default, <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> creates the virtual environment inside the project
+directory (in <code>.pixi/</code>). On Windows, synced folders such as OneDrive
+may cause file‑system issues (e.g., path-length limitations or
+restricted link operations), which can lead to unexpected install
+errors or environments being recreated.</p>
+<p>Instead, create your project in a <strong>local directory on your drive</strong>
+where you have full write permissions.</p>
+</details>
+</li>
 </ul>
-<p>!!! warning "<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m0 93.7 183.6-25.3v177.4H0zm0 324.6 183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/></svg></span> Windows + OneDrive"</p>
-<div class="language-text highlight"><pre><span></span><code>    We **do not recommend creating a Pixi project inside OneDrive or other synced folders**.
+<!-- prettier-ignore-end -->
 
-    By default, Pixi creates the virtual environment inside the project
-    directory (in `.pixi/`). On Windows, synced folders such as OneDrive
-    may cause file‑system issues (e.g., path-length limitations or
-    restricted link operations), which can lead to unexpected install errors
-    or environments being recreated.
-
-    Instead, create your project in a **local directory on your drive**
-    where you have full write permissions.
-</code></pre></div>
 <ul>
 <li>Initialize a new <abbr title="A modern package manager for Windows, macOS, and Linux.">Pixi</abbr> project and navigate into it:
   <div class="language-text highlight"><pre><span></span><code>pixi init easyutilities
@@ -1254,17 +1260,6 @@ EasyUtilities.</p>
   <g transform="matrix(0.341978, 0, 0, 0.341978, -0.583402, 0.214362)">
     <path d="M 191.776 94.409 C 191.776 146.895 149.227 189.444 96.741 189.444 C 44.255 189.443 1.706 146.894 1.706 94.408 C 1.707 41.922 44.256 -0.627 96.742 -0.626 C 149.228 -0.626 191.777 41.923 191.776 94.409 Z M 72.637 41.889 C 72.637 41.889 73.168 38.55 72.784 36.945 C 72.345 35.114 71.2 33.503 70.079 31.989 C 67.964 29.127 62.62 24.353 62.62 24.353 L 53.398 29.631 C 53.398 29.631 54.644 37.578 56.45 41.096 C 57.271 42.696 58.463 44.16 59.883 45.264 C 61.301 46.368 64.758 47.564 64.758 47.564 L 84.094 84.305 L 94.798 79.299 L 72.637 41.889 Z M 115.385 162.327 C 115.385 162.327 119.396 163.287 121.449 163.274 C 123.623 163.26 125.737 162.818 127.815 162.179 C 130.095 161.479 132.363 160.64 134.431 159.453 C 136.283 158.391 138.358 156.84 139.902 155.361 C 141.633 153.703 143.151 151.766 144.23 149.625 C 145.299 147.501 145.924 143.425 145.924 143.425 L 116.961 102.133 L 94.061 119.099 L 115.385 162.327 Z M 40.994 117.621 C 45.191 115.197 50.555 116.634 52.978 120.832 C 55.402 125.029 53.965 130.393 49.767 132.816 C 45.571 135.237 40.207 133.8 37.783 129.605 C 35.362 125.409 36.799 120.045 40.994 117.621 Z M 130.515 40.311 L 114.05 49.084 L 105.119 80.234 C 105.119 80.234 36.282 109.898 32.981 112.77 C 31.04 114.46 29.606 116.794 28.713 119.21 C 27.95 121.279 27.424 124.35 27.722 126.534 C 28.06 129.004 30.109 133.467 30.109 133.467 C 30.109 133.467 32.883 137.532 34.751 139.179 C 36.744 140.94 39.456 141.809 42.038 142.443 C 44.239 142.984 46.126 143.084 48.834 142.626 C 53.232 141.882 117.993 94.996 117.993 94.996 L 133.354 96.823 L 146.859 97.185 L 153.716 93.364 L 165.386 62.218 L 159.008 50.217 L 142.567 75.727 L 126.425 60.655 L 144.191 43.74 L 130.515 40.311 Z" style="stroke-width: 10.3125px;"/>
   </g>
-</svg>
-    </a>
-  
-    
-    
-    
-    
-    <a href="https://easyscience.github.io/utils-app" target="_blank" rel="noopener" title="EasyUtilities Application Docs" class="md-social__link">
-      <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 800 800" width="24px" fill="#000000">
-  <path d="M 80 662.5 L 720 662.5 L 720 323.44 L 80 323.44 L 80 662.5 Z M 23.5 724.3 C 7.833 707.16 0 686.56 0 662.5 L 0 137.5 C 0 113.44 7.833 92.84 23.5 75.7 C 39.167 58.57 58 50 80 50 L 720 50 C 742 50 760.833 58.57 776.5 75.7 C 792.167 92.84 800 113.44 800 137.5 L 800 662.5 C 800 686.56 792.167 707.16 776.5 724.3 C 760.833 741.43 742 750 720 750 L 80 750 C 58 750 39.167 741.43 23.5 724.3 Z M 435 130 C 404.624 130 380 154.624 380 185 C 380 215.376 404.624 240 435 240 C 465.376 240 490 215.376 490 185 C 490 154.624 465.376 130 435 130 Z M 285 130 C 254.624 130 230 154.624 230 185 C 230 215.376 254.624 240 285 240 C 315.376 240 340 215.376 340 185 C 340 154.624 315.376 130 285 130 Z M 135 130 C 104.624 130 80 154.624 80 185 C 80 215.376 104.624 240 135 240 C 165.376 240 190 215.376 190 185 C 190 154.624 165.376 130 135 130 Z"/>
 </svg>
     </a>
   
