@@ -199,11 +199,25 @@ pre-commit-setup = { depends-on = [
   'pre-commit-install',
 ] }
 
+#################
+# 🐙️ GitHub Tasks
+#################
+
+master-protection = 'gh api -X POST repos/easyscience/utils/rulesets --input .github/rulesets/master.json'
+develop-protection = 'gh api -X POST repos/easyscience/utils/rulesets --input .github/rulesets/develop.json'
+gh-pages-protection = 'gh api -X POST repos/easyscience/utils/rulesets --input .github/rulesets/gh-pages.json'
+
+branch-protection = { depends-on = [
+  'master-protection',
+  'develop-protection',
+  'gh-pages-protection',
+] }
+
+github-labels = 'python tools/update_github_labels.py'
+
 ####################################
 # 🚀 Other Development & Build Tasks
 ####################################
-
-github-labels = 'python tools/update_github_labels.py'
 
 default-build = 'python -m build'
 dist-build = 'python -m build --wheel --outdir dist'
