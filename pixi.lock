@@ -3053,7 +3053,7 @@ packages:
   requires_python: '>=3.5'
 - pypi: ./
   name: easyutilities
-  version: 0.1.1+devdirty17
+  version: 0.1.1+dev21
   sha256: 85cc3e3a50e3c8be6e2aeaf80a2f7b3ad8c222996c9caec2ad9d9995300b17e9
   requires_dist:
   - darkdetect
