@@ -105,7 +105,7 @@ def in_jupyter() -> bool:
         if shell == 'TerminalInteractiveShell':
             return False
         return False
-    except Exception:
+    except (AttributeError, TypeError):
         return False
 
 
@@ -146,14 +146,14 @@ def is_ipython_display_handle(obj: object) -> bool:
 
         try:
             return isinstance(obj, DisplayHandle)
-        except Exception:
+        except TypeError:
             return False
-    except Exception:
+    except ImportError:
         # Fallback heuristic when IPython is unavailable
         try:
             mod = getattr(getattr(obj, '__class__', None), '__module__', '')
             return isinstance(mod, str) and mod.startswith('IPython')
-        except Exception:
+        except (AttributeError, TypeError):
             return False
 
 
@@ -170,7 +170,7 @@ def can_update_ipython_display() -> bool:
         from IPython.display import HTML  # type: ignore[import-not-found]  # noqa: F401
 
         return True
-    except Exception:
+    except ImportError:
         return False
 
 
@@ -188,5 +188,5 @@ def can_use_ipython_display(handle: object) -> bool:
     """
     try:
         return is_ipython_display_handle(handle) and can_update_ipython_display()
-    except Exception:
+    except (AttributeError, TypeError):
         return False
