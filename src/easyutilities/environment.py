@@ -14,7 +14,6 @@ import os
 import sys
 from importlib.util import find_spec
 
-
 # ----------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------
@@ -76,7 +75,7 @@ def in_jupyter() -> bool:
     config-based detection, and shell class name inspection.
 
     Returns:
-        bool: True if running inside a Jupyter Notebook, False otherwise.
+        bool: True if in Jupyter Notebook, False otherwise.
     """
     try:
         import IPython  # type: ignore[import-not-found]
@@ -119,7 +118,7 @@ def in_github_ci() -> bool:
     """Determine if the current environment is GitHub Actions CI.
 
     Returns:
-        bool: True if ``GITHUB_ACTIONS`` env var is set, False otherwise.
+        bool: True if ``GITHUB_ACTIONS`` is set, False otherwise.
     """
     return os.environ.get('GITHUB_ACTIONS') is not None
 
@@ -165,7 +164,7 @@ def can_update_ipython_display() -> bool:
     and update a display handle.
 
     Returns:
-        bool: True if IPython HTML display is available, False otherwise.
+        bool: True if IPython HTML display is available.
     """
     try:
         from IPython.display import HTML  # type: ignore[import-not-found]  # noqa: F401
