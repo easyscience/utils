@@ -6,3 +6,6 @@ icon: material/code-braces-box
 
 This section contains the reference detailing the functions and modules
 available in EasyUtilities.
+
+- [environment](environment.md) – Runtime environment detection
+  utilities.
