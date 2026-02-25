@@ -1,6 +1,6 @@
 ![](assets/images/logo_dark.svg#gh-dark-mode-only)![](assets/images/logo_light.svg#gh-light-mode-only)
 
-# Reusable utility classes and functions shared across EasyScience modules library
+# Reusable utility classes and functions shared across EasyScience modules
 
 Here is a brief overview of the main documentation sections:
 

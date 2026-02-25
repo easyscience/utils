@@ -11,7 +11,7 @@ To install and set up EasyUtilities, we recommend using
 [**Pixi**](https://pixi.prefix.dev), a modern package manager for
 Windows, macOS, and Linux.
 
-!!! note "Main benefits of using Pixi"
+??? note "Main benefits of using Pixi"
 
     - **Ease of use**: Pixi simplifies the installation process, making it
       accessible even for users with limited experience in package management.
@@ -36,6 +36,26 @@ This section describes the simplest way to set up EasyUtilities using
   [official Pixi Installation Guide](https://pixi.prefix.dev/latest/installation).
 
 #### Setting up EasyUtilities with Pixi
+
+<!-- prettier-ignore-start -->
+
+- Choose a project location (local drive recommended).
+
+    ??? warning ":fontawesome-brands-windows: Windows + OneDrive"
+
+        We **do not recommend creating a Pixi project inside OneDrive or other
+        synced folders**.
+
+        By default, Pixi creates the virtual environment inside the project
+        directory (in `.pixi/`). On Windows, synced folders such as OneDrive
+        may cause file‑system issues (e.g., path-length limitations or
+        restricted link operations), which can lead to unexpected install
+        errors or environments being recreated.
+
+        Instead, create your project in a **local directory on your drive**
+        where you have full write permissions.
+
+<!-- prettier-ignore-end -->
 
 - Initialize a new Pixi project and navigate into it:
   ```txt

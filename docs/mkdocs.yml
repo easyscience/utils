@@ -64,9 +64,6 @@ extra:
     - icon: easyutilities # File: overrides/.icons/easyutilities.svg
       link: https://easyscience.github.io/utils
       name: EasyUtilities Main Webpage
-    - icon: app # File: overrides/.icons/app.svg
-      link: https://easyscience.github.io/utils-app
-      name: EasyUtilities Application Docs
     - icon: fontawesome/brands/github # Name as in Font Awesome
       link: https://github.com/easyscience/utils
       name: EasyUtilities Library Source Code on GitHub
@@ -175,3 +172,4 @@ nav:
           - Dummy tutorial: tutorials/tutorial.ipynb
   - API Reference:
       - API Reference: api-reference/index.md
+      - environment: api-reference/environment.md

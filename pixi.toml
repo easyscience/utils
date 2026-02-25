@@ -42,7 +42,6 @@ channels = ['conda-forge']
 
 [dependencies]
 nodejs = '*' # Required for Prettier (non-Python formatting)
-gsl = '*'    # GNU Scientific Library; required for pdffit2.
 
 [pypi-dependencies] # == [feature.default.pypi-dependencies]
 pip = '*'                                                         # Native package installer
@@ -199,11 +198,37 @@ pre-commit-setup = { depends-on = [
   'pre-commit-install',
 ] }
 
+#################
+# 🐙️ GitHub Tasks
+#################
+
+repo-wiki = 'gh api -X PATCH repos/easyscience/utils -f has_wiki=false'
+repo-discussions = 'gh api -X PATCH repos/easyscience/utils -f has_discussions=true'
+repo-description = "gh api -X PATCH repos/easyscience/utils -f description='Reusable utility classes and functions shared across EasyScience modules'"
+repo-homepage = "gh api -X PATCH repos/easyscience/utils -f homepage='https://easyscience.github.io/utils'"
+repo-config = { depends-on = [
+  'repo-wiki',
+  'repo-discussions',
+  'repo-description',
+  'repo-homepage',
+] }
+
+master-protection = 'gh api -X POST repos/easyscience/utils/rulesets --input .github/configs/rulesets-master.json'
+develop-protection = 'gh api -X POST repos/easyscience/utils/rulesets --input .github/configs/rulesets-develop.json'
+gh-pages-protection = 'gh api -X POST repos/easyscience/utils/rulesets --input .github/configs/rulesets-gh-pages.json'
+branch-protection = { depends-on = [
+  'master-protection',
+  'develop-protection',
+  'gh-pages-protection',
+] }
+
+pages-deployment = 'gh api -X POST repos/easyscience/utils/pages --input .github/configs/pages-deployment.json'
+
+github-labels = 'python tools/update_github_labels.py'
+
 ####################################
 # 🚀 Other Development & Build Tasks
 ####################################
-
-github-labels = 'python tools/update_github_labels.py'
 
 default-build = 'python -m build'
 dist-build = 'python -m build --wheel --outdir dist'
