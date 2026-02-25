@@ -172,3 +172,4 @@ nav:
           - Dummy tutorial: tutorials/tutorial.ipynb
   - API Reference:
       - API Reference: api-reference/index.md
+      - environment: api-reference/environment.md
