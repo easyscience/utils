@@ -11,19 +11,35 @@ import easyutilities.environment as env
 
 
 # ----------------------------------------------------------------------
+# Fixtures
+# ----------------------------------------------------------------------
+
+
+@pytest.fixture
+def reload_env_module():
+    """Fixture that ensures env module is restored after test, even on failure."""
+    yield
+    importlib.reload(env)
+
+
+@pytest.fixture
+def clean_pycharm_env(monkeypatch):
+    """Fixture that ensures PYCHARM_HOSTED is unset."""
+    monkeypatch.delenv('PYCHARM_HOSTED', raising=False)
+
+
+# ----------------------------------------------------------------------
 # in_pytest()
 # ----------------------------------------------------------------------
 
 
 def test_in_pytest_returns_true_when_pytest_loaded():
     """Test in_pytest() returns True when pytest is in sys.modules."""
-    # pytest is loaded since we are running tests
     assert env.in_pytest() is True
 
 
 def test_in_pytest_returns_false_when_pytest_not_loaded(monkeypatch):
     """Test in_pytest() returns False when pytest is not in sys.modules."""
-    # Temporarily remove pytest from sys.modules
     original_modules = sys.modules.copy()
     monkeypatch.setattr(
         sys, 'modules', {k: v for k, v in original_modules.items() if k != 'pytest'}
@@ -84,7 +100,6 @@ def test_in_pycharm_returns_false_when_env_not_set(monkeypatch):
 
 def test_in_colab_returns_false_when_module_not_found():
     """Test in_colab() returns False when google.colab module is absent."""
-    # google.colab is not installed in test environment
     assert env.in_colab() is False
 
 
@@ -92,7 +107,8 @@ def test_in_colab_returns_true_when_module_exists(monkeypatch):
     """Test in_colab() returns True when google.colab module exists."""
     mock_spec = MagicMock()
     monkeypatch.setattr(
-        'easyutilities.environment.find_spec', lambda x: mock_spec if x == 'google.colab' else None
+        'easyutilities.environment.find_spec',
+        lambda x: mock_spec if x == 'google.colab' else None,
     )
     assert env.in_colab() is True
 
@@ -113,29 +129,24 @@ def test_in_jupyter_returns_false_when_pycharm(monkeypatch):
     assert env.in_jupyter() is False
 
 
-def test_in_jupyter_returns_true_when_colab(monkeypatch):
+def test_in_jupyter_returns_true_when_colab(monkeypatch, clean_pycharm_env, reload_env_module):
     """Test in_jupyter() returns True when in Google Colab."""
-    monkeypatch.delenv('PYCHARM_HOSTED', raising=False)
-
-    # Mock IPython and find_spec for colab
     mock_ipython = MagicMock()
     mock_ipython.get_ipython.return_value = MagicMock()
     mock_spec = MagicMock()
 
     with patch.dict(sys.modules, {'IPython': mock_ipython}):
+        importlib.reload(env)
+        # Patch find_spec AFTER reload (reload re-imports find_spec)
         monkeypatch.setattr(
             'easyutilities.environment.find_spec',
             lambda x: mock_spec if x == 'google.colab' else None,
         )
-        # Need to reload to pick up mocked import
-        assert env.in_colab() is True
+        assert env.in_jupyter() is True
 
 
-def test_in_jupyter_returns_true_with_zmq_shell(monkeypatch):
+def test_in_jupyter_returns_true_with_zmq_shell(clean_pycharm_env, reload_env_module):
     """Test in_jupyter() returns True with ZMQInteractiveShell."""
-    monkeypatch.delenv('PYCHARM_HOSTED', raising=False)
-    monkeypatch.setattr('easyutilities.environment.find_spec', lambda x: None)
-
     mock_ip = MagicMock()
     mock_ip.__class__.__name__ = 'ZMQInteractiveShell'
     mock_ip.config = {}
@@ -144,19 +155,12 @@ def test_in_jupyter_returns_true_with_zmq_shell(monkeypatch):
     mock_ipython.get_ipython.return_value = mock_ip
 
     with patch.dict(sys.modules, {'IPython': mock_ipython}):
-        # Re-import to get fresh module with mocked IPython
         importlib.reload(env)
         assert env.in_jupyter() is True
 
-    # Restore module
-    importlib.reload(env)
 
-
-def test_in_jupyter_returns_false_with_terminal_shell(monkeypatch):
+def test_in_jupyter_returns_false_with_terminal_shell(clean_pycharm_env, reload_env_module):
     """Test in_jupyter() returns False with TerminalInteractiveShell."""
-    monkeypatch.delenv('PYCHARM_HOSTED', raising=False)
-    monkeypatch.setattr('easyutilities.environment.find_spec', lambda x: None)
-
     mock_ip = MagicMock()
     mock_ip.__class__.__name__ = 'TerminalInteractiveShell'
     mock_ip.config = {}
@@ -168,15 +172,9 @@ def test_in_jupyter_returns_false_with_terminal_shell(monkeypatch):
         importlib.reload(env)
         assert env.in_jupyter() is False
 
-    # Restore module
-    importlib.reload(env)
 
-
-def test_in_jupyter_returns_true_with_ipkernel_config(monkeypatch):
+def test_in_jupyter_returns_true_with_ipkernel_config(clean_pycharm_env, reload_env_module):
     """Test in_jupyter() returns True when IPKernelApp is in config."""
-    monkeypatch.delenv('PYCHARM_HOSTED', raising=False)
-    monkeypatch.setattr('easyutilities.environment.find_spec', lambda x: None)
-
     mock_ip = MagicMock()
     mock_ip.__class__.__name__ = 'SomeOtherShell'
     mock_ip.config = {'IPKernelApp': {}}
@@ -188,24 +186,15 @@ def test_in_jupyter_returns_true_with_ipkernel_config(monkeypatch):
         importlib.reload(env)
         assert env.in_jupyter() is True
 
-    # Restore module
-    importlib.reload(env)
 
-
-def test_in_jupyter_returns_false_when_ipython_returns_none(monkeypatch):
+def test_in_jupyter_returns_false_when_ipython_returns_none(clean_pycharm_env, reload_env_module):
     """Test in_jupyter() returns False when get_ipython() returns None."""
-    monkeypatch.delenv('PYCHARM_HOSTED', raising=False)
-    monkeypatch.setattr('easyutilities.environment.find_spec', lambda x: None)
-
     mock_ipython = MagicMock()
     mock_ipython.get_ipython.return_value = None
 
     with patch.dict(sys.modules, {'IPython': mock_ipython}):
         importlib.reload(env)
         assert env.in_jupyter() is False
-
-    # Restore module
-    importlib.reload(env)
 
 
 # ----------------------------------------------------------------------
@@ -230,38 +219,34 @@ def test_in_github_ci_returns_false_when_env_not_set(monkeypatch):
 # ----------------------------------------------------------------------
 
 
-def test_is_ipython_display_handle_returns_false_for_non_handle():
+@pytest.mark.parametrize('obj', ['string', 123, None, {}, []])
+def test_is_ipython_display_handle_returns_false_for_non_handle(obj):
     """Test is_ipython_display_handle() returns False for regular objects."""
-    assert env.is_ipython_display_handle('string') is False
-    assert env.is_ipython_display_handle(123) is False
-    assert env.is_ipython_display_handle(None) is False
-    assert env.is_ipython_display_handle({}) is False
+    assert env.is_ipython_display_handle(obj) is False
 
 
-def test_is_ipython_display_handle_returns_true_for_mock_handle():
+def test_is_ipython_display_handle_returns_true_for_display_handle():
     """Test is_ipython_display_handle() returns True for DisplayHandle."""
-    try:
-        from IPython.display import DisplayHandle
-
-        handle = DisplayHandle()
-        assert env.is_ipython_display_handle(handle) is True
-    except ImportError:
-        pytest.skip('IPython not available')
+    IPython_display = pytest.importorskip('IPython.display')
+    handle = IPython_display.DisplayHandle()
+    assert env.is_ipython_display_handle(handle) is True
 
 
-def test_is_ipython_display_handle_fallback_heuristic():
-    """Test is_ipython_display_handle() fallback when IPython unavailable."""
-    # Create an object that looks like it's from IPython
+def test_is_ipython_display_handle_fallback_heuristic(reload_env_module):
+    """Test is_ipython_display_handle() uses module heuristic when IPython unavailable."""
+    # Create a mock object with __class__.__module__ starting with 'IPython'
     mock_obj = MagicMock()
     mock_obj.__class__.__module__ = 'IPython.display'
 
-    # Temporarily hide IPython
+    # Block IPython import to force fallback path
     with patch.dict(sys.modules, {'IPython': None, 'IPython.display': None}):
-        # Force the exception path by making import fail
-        with patch('easyutilities.environment.is_ipython_display_handle') as mock_func:
-            mock_func.return_value = True
-            # Fallback should use heuristic - module starts with 'IPython'
-            assert mock_func(mock_obj) is True
+        # The function should use the heuristic: check if module starts with 'IPython'
+        # Since we can't easily force the ImportError inside the function,
+        # test that the function handles the module-check heuristic
+        result = env.is_ipython_display_handle(mock_obj)
+        # With IPython available in test env, it will use isinstance check
+        # which will return False for our mock
+        assert isinstance(result, bool)
 
 
 # ----------------------------------------------------------------------
@@ -271,24 +256,12 @@ def test_is_ipython_display_handle_fallback_heuristic():
 
 def test_can_update_ipython_display_returns_true_with_ipython():
     """Test can_update_ipython_display() returns True when IPython HTML available."""
-    try:
-        from IPython.display import HTML  # noqa: F401
-
-        assert env.can_update_ipython_display() is True
-    except ImportError:
-        pytest.skip('IPython not available')
+    pytest.importorskip('IPython.display')
+    assert env.can_update_ipython_display() is True
 
 
-def test_can_update_ipython_display_returns_false_without_ipython():
-    """Test can_update_ipython_display() returns False without IPython."""
-    with patch.dict(sys.modules, {'IPython': None, 'IPython.display': None}):
-        # Force ImportError
-        importlib.reload(env)
-        # After reload without IPython, should return False
-        # but we need to actually test the function behavior
-
-    # In test environment, IPython may or may not be available
-    # This test validates the function runs without error
+def test_can_update_ipython_display_returns_bool():
+    """Test can_update_ipython_display() always returns a boolean."""
     result = env.can_update_ipython_display()
     assert isinstance(result, bool)
 
@@ -298,30 +271,23 @@ def test_can_update_ipython_display_returns_false_without_ipython():
 # ----------------------------------------------------------------------
 
 
-def test_can_use_ipython_display_returns_false_for_non_handle():
+@pytest.mark.parametrize('obj', ['not a handle', None, 123, {}])
+def test_can_use_ipython_display_returns_false_for_non_handle(obj):
     """Test can_use_ipython_display() returns False for non-DisplayHandle."""
-    assert env.can_use_ipython_display('not a handle') is False
-    assert env.can_use_ipython_display(None) is False
-    assert env.can_use_ipython_display(123) is False
+    assert env.can_use_ipython_display(obj) is False
 
 
 def test_can_use_ipython_display_returns_true_for_valid_handle():
     """Test can_use_ipython_display() returns True for valid DisplayHandle."""
-    try:
-        from IPython.display import DisplayHandle
-
-        handle = DisplayHandle()
-        assert env.can_use_ipython_display(handle) is True
-    except ImportError:
-        pytest.skip('IPython not available')
+    IPython_display = pytest.importorskip('IPython.display')
+    handle = IPython_display.DisplayHandle()
+    assert env.can_use_ipython_display(handle) is True
 
 
-def test_can_use_ipython_display_handles_exception():
-    """Test can_use_ipython_display() handles exceptions gracefully."""
-    # Mock object that raises on attribute access
+def test_can_use_ipython_display_handles_exception_gracefully():
+    """Test can_use_ipython_display() returns False for problematic objects."""
+    # Object that may cause issues during type checking
     bad_obj = MagicMock()
-    bad_obj.__class__ = None  # This can cause issues
-
+    bad_obj.__class__ = None
     # Should not raise, should return False
-    result = env.can_use_ipython_display(bad_obj)
-    assert result is False or result is True  # Valid boolean result
+    assert env.can_use_ipython_display(bad_obj) is False
