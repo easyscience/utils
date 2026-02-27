@@ -27,7 +27,9 @@ functions used across the EasyScience framework.
 - 🧾
   [Citation](https://easyscience.github.io/utils/latest/introduction/#citation)
 - 🤝
-  [Contributing](https://easyscience.github.io/utils/latest/introduction/#contributing)
+  [Contributing](https://github.com/easyscience/utils/blob/master/CONTRIBUTING.md)
+- 🛡
+  [Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md)
 - 🐞 [Issue Tracker](https://github.com/easyscience/utils/issues)
 - 💡 [Discussions](https://github.com/easyscience/utils/discussions)
 - 🧑‍💻 [Source Code](https://github.com/easyscience/utils)
