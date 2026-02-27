@@ -18,6 +18,8 @@ functions used across the EasyScience framework.
 
 ## Useful Links
 
+### 📚 For Users
+
 - 📖 [Documentation](https://easyscience.github.io/utils/latest)
 - 🚀
   [Getting Started](https://easyscience.github.io/utils/latest/introduction)
@@ -26,12 +28,18 @@ functions used across the EasyScience framework.
   [Get in Touch](https://easyscience.github.io/utils/latest/introduction/#get-in-touch)
 - 🧾
   [Citation](https://easyscience.github.io/utils/latest/introduction/#citation)
+
+### 🤝 For Contributors
+
 - 🤝
-  [Contributing](https://github.com/easyscience/utils/blob/master/CONTRIBUTING.md)
+  [Contributing Guide](https://github.com/easyscience/utils/blob/master/CONTRIBUTING.md)
 - 🛡
   [Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md)
 - 🐞 [Issue Tracker](https://github.com/easyscience/utils/issues)
 - 💡 [Discussions](https://github.com/easyscience/utils/discussions)
 - 🧑‍💻 [Source Code](https://github.com/easyscience/utils)
+
+### ⚖️ Project Information
+
 - ⚖️
   [License](https://raw.githubusercontent.com/easyscience/utils/refs/heads/master/LICENSE)
