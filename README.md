@@ -16,9 +16,12 @@ functions used across the EasyScience framework.
 
 **EasyUtilities** is developed as a Python library.
 
+License:
+[BSD 3-Clause](https://github.com/easyscience/utils/blob/master/LICENSE)
+
 ## Useful Links
 
-### 📚 For Users
+### For Users
 
 - 📖 [Documentation](https://easyscience.github.io/utils/latest)
 - 🚀
@@ -29,17 +32,12 @@ functions used across the EasyScience framework.
 - 🧾
   [Citation](https://easyscience.github.io/utils/latest/introduction/#citation)
 
-### 🤝 For Contributors
+### For Contributors
 
+- 🧑‍💻 [Source Code](https://github.com/easyscience/utils)
+- 🐞 [Issue Tracker](https://github.com/easyscience/utils/issues)
+- 💡 [Discussions](https://github.com/easyscience/utils/discussions)
 - 🤝
   [Contributing Guide](https://github.com/easyscience/utils/blob/master/CONTRIBUTING.md)
 - 🛡
   [Code of Conduct](https://github.com/easyscience/.github/blob/master/CODE_OF_CONDUCT.md)
-- 🐞 [Issue Tracker](https://github.com/easyscience/utils/issues)
-- 💡 [Discussions](https://github.com/easyscience/utils/discussions)
-- 🧑‍💻 [Source Code](https://github.com/easyscience/utils)
-
-### ⚖️ Project Information
-
-- ⚖️
-  [License](https://raw.githubusercontent.com/easyscience/utils/refs/heads/master/LICENSE)

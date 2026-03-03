@@ -1,11 +1,11 @@
-# The workflow is divided into several steps to ensure code quality:
-#    - Check the validity of pyproject.toml
-#    - Check code linting
-#    - Check code formatting
-#    - Check formatting of docstrings in the code
-#    - Check formatting of Markdown, YAML, TOML, etc. files
+# The workflow is divided into several steps:
+#   - Check the validity of pyproject.toml
+#   - Check code linting
+#   - Check code formatting
+#   - Check formatting of docstrings in the code
+#   - Check formatting of Markdown, YAML, TOML, etc. files
 
-name: Code quality checks
+name: Lint and format checks
 
 on:
   # Trigger the workflow on push
@@ -33,7 +33,7 @@ env:
   CI_BRANCH: ${{ github.head_ref || github.ref_name }}
 
 jobs:
-  code-quality:
+  lint-format:
     runs-on: ubuntu-latest
 
     steps:
@@ -81,14 +81,13 @@ jobs:
         continue-on-error: true
         shell: bash
         run: pixi run nonpy-format-check
+
       # Check formatting of Jupyter Notebooks in the tutorials folder
       - name: Prepare notebooks and check formatting
         id: check_notebooks_formatting
         continue-on-error: true
         shell: bash
-        run: |
-          pixi run notebook-prepare
-          pixi run notebook-format-check
+        run: pixi run notebook-format-check
 
       # Add summary
       - name: Add quality checks summary
@@ -96,7 +95,7 @@ jobs:
         shell: bash
         run: |
           {
-            echo "## 🧪 Code Quality Checks Summary"
+            echo "## 🧪 Checks Summary"
             echo ""
             echo "| Check | Status |"
             echo "|-------|--------|"
