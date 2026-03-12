@@ -3182,8 +3182,8 @@ packages:
   requires_python: '>=3.5'
 - pypi: ./
   name: easyutilities
-  version: 0.2.1+devdirty6
-  sha256: 319d989f611ca604c9ebe39cf4383d697e5177f37de71761ab1fce7357de160d
+  version: 0.2.1+dev8
+  sha256: 4c113189f82bde4d1819696c481578f5115a7e40d40cdcb5c0a61f6dd4a2cd48
   requires_dist:
   - darkdetect
   - jupyterlab
