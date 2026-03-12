@@ -14,6 +14,33 @@ import os
 import sys
 from importlib.util import find_spec
 
+try:
+    import IPython
+except ImportError:
+    IPython = None
+
+try:
+    from IPython.display import DisplayHandle
+except ImportError:
+    DisplayHandle = None
+
+try:
+    from IPython.display import HTML
+except ImportError:
+    HTML = None
+
+__all__ = [
+    'can_update_ipython_display',
+    'can_use_ipython_display',
+    'in_colab',
+    'in_github_ci',
+    'in_jupyter',
+    'in_pycharm',
+    'in_pytest',
+    'in_warp',
+    'is_ipython_display_handle',
+]
+
 # ----------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------
@@ -64,8 +91,28 @@ def in_colab() -> bool:
     """
     try:
         return find_spec('google.colab') is not None
-    except ModuleNotFoundError:  # pragma: no cover - importlib edge case
+    except ModuleNotFoundError:
         return False
+
+
+def _detect_jupyter_shell() -> bool:
+    """Detect Jupyter environment via IPython shell inspection.
+
+    Returns:
+        bool: True if in a Jupyter environment, False otherwise.
+    """
+    try:
+        ip = IPython.get_ipython()
+    except (AttributeError, TypeError):
+        return False
+    if ip is None:
+        return False
+    # Prefer config-based detection when available (works with tests).
+    has_cfg = hasattr(ip, 'config') and isinstance(ip.config, dict)
+    if has_cfg and 'IPKernelApp' in ip.config:
+        return True
+    shell = ip.__class__.__name__
+    return shell == 'ZMQInteractiveShell'
 
 
 def in_jupyter() -> bool:
@@ -77,36 +124,13 @@ def in_jupyter() -> bool:
     Returns:
         bool: True if in Jupyter Notebook, False otherwise.
     """
-    try:
-        import IPython  # type: ignore[import-not-found]
-    except ImportError:  # pragma: no cover - optional dependency
-        ipython_mod = None
-    else:
-        ipython_mod = IPython
-    if ipython_mod is None:
+    if IPython is None:
         return False
     if in_pycharm():
         return False
     if in_colab():
         return True
-
-    try:
-        ip = ipython_mod.get_ipython()  # type: ignore[attr-defined]
-        if ip is None:
-            return False
-        # Prefer config-based detection when available (works with
-        # tests).
-        has_cfg = hasattr(ip, 'config') and isinstance(ip.config, dict)
-        if has_cfg and 'IPKernelApp' in ip.config:  # type: ignore[index]
-            return True
-        shell = ip.__class__.__name__
-        if shell == 'ZMQInteractiveShell':  # Jupyter or qtconsole
-            return True
-        if shell == 'TerminalInteractiveShell':
-            return False
-        return False
-    except (AttributeError, TypeError):
-        return False
+    return _detect_jupyter_shell()
 
 
 # ----------------------------------------------------------------------
@@ -131,30 +155,27 @@ def in_github_ci() -> bool:
 def is_ipython_display_handle(obj: object) -> bool:
     """Check if an object is an IPython DisplayHandle instance.
 
-    Tries to import ``IPython.display.DisplayHandle`` and uses
+    Tries to use ``IPython.display.DisplayHandle`` with
     ``isinstance`` when available. Falls back to a conservative
     module name heuristic if IPython is missing.
 
     Args:
-        obj: The object to check.
+        obj (object): The object to check.
 
     Returns:
         bool: True if ``obj`` is a DisplayHandle, False otherwise.
     """
-    try:  # Fast path when IPython is available
-        from IPython.display import DisplayHandle  # type: ignore[import-not-found]
-
+    if DisplayHandle is not None:
         try:
             return isinstance(obj, DisplayHandle)
         except TypeError:
             return False
-    except ImportError:
-        # Fallback heuristic when IPython is unavailable
-        try:
-            mod = getattr(getattr(obj, '__class__', None), '__module__', '')
-            return isinstance(mod, str) and mod.startswith('IPython')
-        except (AttributeError, TypeError):
-            return False
+    # Fallback heuristic when IPython is unavailable
+    try:
+        mod = getattr(getattr(obj, '__class__', None), '__module__', '')
+        return isinstance(mod, str) and mod.startswith('IPython')
+    except (AttributeError, TypeError):
+        return False
 
 
 def can_update_ipython_display() -> bool:
@@ -166,12 +187,7 @@ def can_update_ipython_display() -> bool:
     Returns:
         bool: True if IPython HTML display is available.
     """
-    try:
-        from IPython.display import HTML  # type: ignore[import-not-found]  # noqa: F401
-
-        return True
-    except ImportError:
-        return False
+    return HTML is not None
 
 
 def can_use_ipython_display(handle: object) -> bool:
@@ -181,7 +197,7 @@ def can_use_ipython_display(handle: object) -> bool:
     HTML utilities.
 
     Args:
-        handle: The display handle object to check.
+        handle (object): The display handle object to check.
 
     Returns:
         bool: True if the handle can be updated, False otherwise.

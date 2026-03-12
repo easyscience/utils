@@ -129,7 +129,8 @@ def test_in_jupyter_returns_false_when_pycharm(monkeypatch):
     assert env.in_jupyter() is False
 
 
-def test_in_jupyter_returns_true_when_colab(monkeypatch, clean_pycharm_env, reload_env_module):
+@pytest.mark.usefixtures('clean_pycharm_env', 'reload_env_module')
+def test_in_jupyter_returns_true_when_colab(monkeypatch):
     """Test in_jupyter() returns True when in Google Colab."""
     mock_ipython = MagicMock()
     mock_ipython.get_ipython.return_value = MagicMock()
@@ -145,7 +146,8 @@ def test_in_jupyter_returns_true_when_colab(monkeypatch, clean_pycharm_env, relo
         assert env.in_jupyter() is True
 
 
-def test_in_jupyter_returns_true_with_zmq_shell(clean_pycharm_env, reload_env_module):
+@pytest.mark.usefixtures('clean_pycharm_env', 'reload_env_module')
+def test_in_jupyter_returns_true_with_zmq_shell():
     """Test in_jupyter() returns True with ZMQInteractiveShell."""
     mock_ip = MagicMock()
     mock_ip.__class__.__name__ = 'ZMQInteractiveShell'
@@ -159,7 +161,8 @@ def test_in_jupyter_returns_true_with_zmq_shell(clean_pycharm_env, reload_env_mo
         assert env.in_jupyter() is True
 
 
-def test_in_jupyter_returns_false_with_terminal_shell(clean_pycharm_env, reload_env_module):
+@pytest.mark.usefixtures('clean_pycharm_env', 'reload_env_module')
+def test_in_jupyter_returns_false_with_terminal_shell():
     """Test in_jupyter() returns False with TerminalInteractiveShell."""
     mock_ip = MagicMock()
     mock_ip.__class__.__name__ = 'TerminalInteractiveShell'
@@ -173,7 +176,8 @@ def test_in_jupyter_returns_false_with_terminal_shell(clean_pycharm_env, reload_
         assert env.in_jupyter() is False
 
 
-def test_in_jupyter_returns_true_with_ipkernel_config(clean_pycharm_env, reload_env_module):
+@pytest.mark.usefixtures('clean_pycharm_env', 'reload_env_module')
+def test_in_jupyter_returns_true_with_ipkernel_config():
     """Test in_jupyter() returns True when IPKernelApp is in config."""
     mock_ip = MagicMock()
     mock_ip.__class__.__name__ = 'SomeOtherShell'
@@ -187,7 +191,8 @@ def test_in_jupyter_returns_true_with_ipkernel_config(clean_pycharm_env, reload_
         assert env.in_jupyter() is True
 
 
-def test_in_jupyter_returns_false_when_ipython_returns_none(clean_pycharm_env, reload_env_module):
+@pytest.mark.usefixtures('clean_pycharm_env', 'reload_env_module')
+def test_in_jupyter_returns_false_when_ipython_returns_none():
     """Test in_jupyter() returns False when no IPython."""
     mock_ipython = MagicMock()
     mock_ipython.get_ipython.return_value = None
@@ -227,12 +232,13 @@ def test_is_ipython_display_handle_returns_false_for_non_handle(obj):
 
 def test_is_ipython_display_handle_returns_true_for_display_handle():
     """Test is_ipython_display_handle() for DisplayHandle."""
-    IPython_display = pytest.importorskip('IPython.display')
-    handle = IPython_display.DisplayHandle()
+    ipython_display = pytest.importorskip('IPython.display')
+    handle = ipython_display.DisplayHandle()
     assert env.is_ipython_display_handle(handle) is True
 
 
-def test_is_ipython_display_handle_fallback_heuristic(reload_env_module):
+@pytest.mark.usefixtures('reload_env_module')
+def test_is_ipython_display_handle_fallback_heuristic():
     """Test fallback heuristic when IPython unavailable."""
     # Create mock with __class__.__module__ starting with 'IPython'
     mock_obj = MagicMock()
@@ -277,8 +283,8 @@ def test_can_use_ipython_display_returns_false_for_non_handle(obj):
 
 def test_can_use_ipython_display_returns_true_for_valid_handle():
     """Test can_use_ipython_display() for valid handle."""
-    IPython_display = pytest.importorskip('IPython.display')
-    handle = IPython_display.DisplayHandle()
+    ipython_display = pytest.importorskip('IPython.display')
+    handle = ipython_display.DisplayHandle()
     assert env.can_use_ipython_display(handle) is True
 
 
